@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/produits")
@@ -14,18 +15,28 @@ public class ProduitController {
 
     private final ProduitService produitService;
 
-    @GetMapping("/hello")
-    public String sayHello() {
-        return "Hello World! Merci!";
-    }
-
     @GetMapping("/all")
     public List<Produit> getAllProduits() {
         return produitService.getAllProduits();
     }
 
+    @GetMapping("{id}")
+    public Produit getProduitById(@PathVariable long id) {
+        return produitService.getProduitById(id);
+    }
+
+    @DeleteMapping("{id}")
+    public String deleteProduitById(@PathVariable("id") long idProduit) {
+        return produitService.deleteProduitById(idProduit);
+    }
+
     @PostMapping
     public Produit createProduit(@RequestBody Produit produit) {
         return produitService.createProduit(produit);
+    }
+
+    @PutMapping("{id}")
+    public Produit editProduit(@PathVariable long id, @RequestBody Produit produit) {
+        return produitService.editProduit(id, produit);
     }
 }
